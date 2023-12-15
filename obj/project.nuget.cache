@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "kP3DpvaLi79CuJbPnRHzwbdH0H4apXSRzFDRReZ/suPv0ZIYoADecQIRUZ6Q9FZz9sRKiQOFkhJ4ribqv9JEOA==",
+  "success": true,
+  "projectFilePath": "/home/peppidesu/dev/git-personal/rebs-assignment-2/rebs-assignment-2.csproj",
+  "expectedPackageFiles": [
+    "/home/peppidesu/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.0/microsoft.aspnetcore.app.ref.8.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
