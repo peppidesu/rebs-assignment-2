@@ -33,8 +33,5 @@ public class DCRGraph<T> where T : notnull {
         _includes = includes;
     }
 
-    // return deep copy to avoid mutation
-    public DCRMarking<T> Marking() {        
-        return (DCRMarking<T>) _marking.Clone(); 
-    }
+    public DCRMarking<T> Marking => (DCRMarking<T>)_marking.Clone(); // return deep copy to avoid mutation 
 } 
