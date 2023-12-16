@@ -1,5 +1,4 @@
-using NUnit.Framework;
-using NSubstitute;
+
 namespace Core.Tests;
 
 [TestFixture]
