@@ -63,6 +63,11 @@ public class DCRGraph<T> where T : IEvent {
 
     #endregion
 
+    /// <summary>
+    /// Checks if an event is enabled in the current marking.
+    /// </summary>
+    /// <param name="e">The event to check.</param>
+    /// <returns></returns>
     public bool IsEnabled(T e) {
         // if e is not included, it is not enabled
         if (!_marking.Included.Contains(e)) 
