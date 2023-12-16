@@ -4,7 +4,7 @@ namespace Core;
 /// Implementation of a DCR Graph.
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class DCRGraph<T> where T : notnull { 
+public class DCRGraph<T> where T : IEvent { 
 
     // nodes
     private readonly HashSet<T> _events = []; 
