@@ -1,4 +1,0 @@
-/home/peppidesu/dev/git-personal/rebs-assignment-2/obj/Debug/net8.0/rebs-assignment-2.GeneratedMSBuildEditorConfig.editorconfig
-/home/peppidesu/dev/git-personal/rebs-assignment-2/obj/Debug/net8.0/rebs-assignment-2.AssemblyInfoInputs.cache
-/home/peppidesu/dev/git-personal/rebs-assignment-2/obj/Debug/net8.0/rebs-assignment-2.AssemblyInfo.cs
-/home/peppidesu/dev/git-personal/rebs-assignment-2/obj/Debug/net8.0/rebs-assignment-2.csproj.CoreCompileInputs.cache
