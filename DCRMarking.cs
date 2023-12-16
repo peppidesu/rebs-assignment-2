@@ -9,7 +9,7 @@ public struct DCRMarking<T> : ICloneable where T : notnull {
         this.pending = pending;
     }
 
-    public object Clone()
+    public readonly object Clone()
     {
         return new DCRMarking<T>(
             new HashSet<T>(executed), 

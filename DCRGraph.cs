@@ -7,17 +7,18 @@ namespace Core;
 public class DCRGraph<T> where T : notnull { 
 
     // nodes
-    private HashSet<T> _events = []; 
+    private readonly HashSet<T> _events = []; 
 
     // edges
-    private Dictionary<T, HashSet<T>> _conditions = [],
-                                      _milestones = [],
-                                      _responses = [],
-                                      _excludes = [],
-                                      _includes = [];
+    private readonly Dictionary<T, HashSet<T>> _conditions = [],
+                                               _milestones = [],
+                                               _responses = [],
+                                               _excludes = [],
+                                               _includes = [];
     
     private DCRMarking<T> _marking = new DCRMarking<T>([], [], []);
 
+    // simple constructor
     public DCRGraph(HashSet<T> events, 
                     Dictionary<T, HashSet<T>> conditions, 
                     Dictionary<T, HashSet<T>> milestones, 
@@ -32,7 +33,8 @@ public class DCRGraph<T> where T : notnull {
         _includes = includes;
     }
 
+    // return deep copy to avoid mutation
     public DCRMarking<T> Marking() {        
-        return (DCRMarking<T>) _marking.Clone(); // deep copy
+        return (DCRMarking<T>) _marking.Clone(); 
     }
 } 
