@@ -16,7 +16,7 @@ public class DCRGraph<T> where T : notnull {
                                                _excludes = [],
                                                _includes = [];
     
-    private DCRMarking<T> _marking = new DCRMarking<T>([], [], []);
+    private DCRMarking<T> _marking = new([], [], []);
 
     // simple constructor
     public DCRGraph(HashSet<T> events, 
