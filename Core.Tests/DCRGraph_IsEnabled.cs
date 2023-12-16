@@ -1,5 +1,5 @@
 using NUnit.Framework;
-
+using NSubstitute;
 namespace Core.Tests;
 
 [TestFixture]
@@ -9,7 +9,12 @@ public class DCRGraph_IsEnabled {
 
     [Test]
     public void IsEnabled_NotIncluded_ReturnsFalse() {
-        
+        var a = Substitute.For<IEvent>();
+
+        var graph = new DCRGraph<IEvent>();
+        graph.AddEvent(a);
+
+        Assert.IsFalse(graph.IsEnabled(a));
     }
     [Test]
     public void IsEnabled_HasUnexecutedCondition_ReturnsFalse() {
