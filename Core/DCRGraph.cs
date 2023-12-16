@@ -50,7 +50,9 @@ public class DCRGraph<T> where T : IEvent {
     public void AddExclude   (T from, T to) => _excludes[from].Add(to);
     public void AddInclude   (T from, T to) => _includes[from].Add(to);
 
-    public void IncludeEvent(T e) => _marking.Included.Add(e);
+    public void MarkEventAsIncluded(T e) => _marking.Included.Add(e);
+    public void MarkEventAsExecuted(T e) => _marking.Executed.Add(e);
+    public void MarkEventAsPending (T e) => _marking.Pending.Add(e);
 
     #endregion
 
