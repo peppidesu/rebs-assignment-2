@@ -40,7 +40,14 @@ public class DCRGraph<T> where T : IEvent {
 
     #region Builder functions
 
-    public void AddEvent(T e) => _events.Add(e);
+    public void AddEvent(T e) {
+        _events.Add(e);
+        _conditions[e] = [];
+        _milestones[e] = [];
+        _responses[e] = [];
+        _excludes[e] = [];
+        _includes[e] = [];
+    }
 
     // first two are reversed! condition[to] = from
     public void AddCondition (T from, T to) => _conditions[to].Add(from);
@@ -50,12 +57,32 @@ public class DCRGraph<T> where T : IEvent {
     public void AddExclude   (T from, T to) => _excludes[from].Add(to);
     public void AddInclude   (T from, T to) => _includes[from].Add(to);
 
-    public void SetMarking(DCRMarking<T> marking) => _marking = marking;
+    public void MarkEventAsIncluded(T e) => _marking.Included.Add(e);
+    public void MarkEventAsExecuted(T e) => _marking.Executed.Add(e);
+    public void MarkEventAsPending (T e) => _marking.Pending.Add(e);
 
     #endregion
 
+    /// <summary>
+    /// Checks if an event is enabled in the current marking.
+    /// </summary>
+    /// <param name="e">The event to check.</param>
+    /// <returns></returns>
     public bool IsEnabled(T e) {
-        throw new NotImplementedException();
+        // if e is not included, it is not enabled
+        if (!_marking.Included.Contains(e)) 
+            return false;
+
+        // if e has unexecuted conditions, it is not enabled
+        if (_conditions[e].Any(c => !_marking.Executed.Contains(c))) 
+            return false;
+
+        // if e has pending milestones, it is not enabled
+        if (_milestones[e].Any(m => _marking.Pending.Contains(m))) 
+            return false;
+        
+        // otherwise, it is enabled
+        return true;
     }
 
     public void Execute(T e) {
