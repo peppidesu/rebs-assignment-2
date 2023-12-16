@@ -1,6 +1,6 @@
 namespace Core;
 
-public struct DCRMarking<T> : ICloneable where T : notnull { 
+public struct DCRMarking<T> : ICloneable where T : IEvent { 
     public readonly HashSet<T> executed = [], included = [], pending = [];
 
     public DCRMarking(HashSet<T> executed, HashSet<T> included, HashSet<T> pending) {
