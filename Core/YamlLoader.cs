@@ -23,7 +23,6 @@ public class YamlLoader {
         graphData.marking.executed ??= [];
         graphData.marking.pending ??= [];
 
-
         return BuildFromData(graphData);        
     }
 
@@ -80,23 +79,29 @@ public class YamlLoader {
                     $"Reference to unknown event '{to}' in edge '{edge}'"
                 );
             }
-            
+        
+            void AddEdgeWithDupCheck(Dictionary<StringEvent,HashSet<StringEvent>> dict){
+                if (!dict[to].Add(from))
+                    Console.WriteLine($"[YamlLoaderWarning]: Encountered duplicate edge '{edge}'");
+            }
+
             // wish i had rusts enum structs rn
-            switch (edge.type) {                
+            switch (edge.type) {
+                
                 case "condition":
-                    conditions[to].Add(from);
+                    AddEdgeWithDupCheck(conditions);
                     break;
                 case "milestone":
-                    milestones[to].Add(from);
+                    AddEdgeWithDupCheck(milestones);
                     break;
                 case "response":
-                    responses[from].Add(to);
+                    AddEdgeWithDupCheck(responses);
                     break;
                 case "exclude":
-                    excludes[from].Add(to);
+                    AddEdgeWithDupCheck(excludes);
                     break;
                 case "include":
-                    includes[from].Add(to);
+                    AddEdgeWithDupCheck(includes);
                     break;
                 default:
                     throw new YamlLoaderException(
