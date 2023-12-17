@@ -14,13 +14,17 @@ public class YamlLoader {
     }
 
     public DCRGraph<StringEvent> LoadFromString(string yaml) {
-        try {
-            var graphData = _deserializer.Deserialize<DCRGraphData>(yaml);
-            return BuildFromData(graphData);
-        }
-        catch (Exception e) {
-            throw new YamlLoaderException($"Error parsing yaml file: {e.Message}");
-        }
+        var graphData = _deserializer.Deserialize<DCRGraphData>(yaml);
+
+        // remove null arrays
+        graphData.events ??= [];
+        graphData.edges ??= [];
+        graphData.marking.included ??= [];
+        graphData.marking.executed ??= [];
+        graphData.marking.pending ??= [];
+
+
+        return BuildFromData(graphData);        
     }
 
 
@@ -30,6 +34,7 @@ public class YamlLoader {
 
     private DCRGraph<StringEvent> BuildFromData(DCRGraphData data) {
         var events = EventSetFromStringArray(data.events);
+        
         if (data.events.Length > events.Count) {
             var dup = events.First(a => data.events.Count(b => a.Name == b) > 1);
             throw new YamlLoaderException($"Duplicate event '{dup}' in events list");
@@ -108,21 +113,21 @@ public class YamlLoader {
 
         {
             var diff = executed.Except(events);
-            if (events.Count > 0) {
+            if (diff.Any()) {
                 throw new YamlLoaderException($"Reference to unknown event '{diff.First()}' in execuded list");
             }
         }
         
         {
             var diff = included.Except(events);
-            if (events.Count > 0) {
+            if (diff.Any()) {
                 throw new YamlLoaderException($"Reference to unknown event '{diff.First()}' in included list");
             }
         }
 
         {
             var diff = pending.Except(events);
-            if (events.Count > 0) {
+            if (diff.Any()) {
                 throw new YamlLoaderException($"Reference to unknown event '{diff.First()}' in pending list");
             }
         }
@@ -139,22 +144,21 @@ public class YamlLoaderException : Exception {
     public YamlLoaderException(string message) : base(message) {}
 }
 
-internal struct DCRGraphData {
-    internal string[] events;
-    internal DCREdgeData[] edges;
-    internal DCRMarkingData marking;
+public struct DCRGraphData {
+    public string[] events;
+    public DCREdgeData[] edges;
+    public DCRMarkingData marking;
 }
 
-internal struct DCREdgeData {
-    internal string type;
-    internal string from;
-    internal string to;
+public struct DCREdgeData {
+    public string type;
+    public string from;
+    public string to;
 
     public override readonly string ToString() => $"({type}): {from} -> {to}";
 }
-
-internal struct DCRMarkingData {
-    internal string[] executed;
-    internal string[] included;
-    internal string[] pending;
+public struct DCRMarkingData {
+    public string[] executed;
+    public string[] included;
+    public string[] pending;
 }
