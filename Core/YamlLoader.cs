@@ -8,9 +8,12 @@ public class YamlLoader {
         _deserializer = new DeserializerBuilder().Build();
     }
 
-    public DCRGraph<StringEvent> Load(string path) {
-    
+    public DCRGraph<StringEvent> LoadFromFile(string path) {
         var yaml = File.ReadAllText(path);
+        return LoadFromString(yaml);
+    }
+
+    public DCRGraph<StringEvent> LoadFromString(string yaml) {
         try {
             var graphData = _deserializer.Deserialize<DCRGraphData>(yaml);
             return BuildFromData(graphData);
@@ -19,6 +22,8 @@ public class YamlLoader {
             throw new YamlLoaderException($"Error parsing yaml file: {e.Message}");
         }
     }
+
+
     private static HashSet<StringEvent> EventSetFromStringArray(string[] arr) {
         return new HashSet<StringEvent>(arr.Select(e => new StringEvent(e)));
     }      
@@ -129,6 +134,7 @@ public class YamlLoader {
     }
 }
 
+// i want rust enum structs
 public class YamlLoaderException : Exception {
     public YamlLoaderException(string message) : base(message) {}
 }
