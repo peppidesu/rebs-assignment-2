@@ -90,7 +90,10 @@ public class DCRGraph<T> where T : IEvent {
     }
 
     public bool IsAccepting() {
-        throw new NotImplementedException();
+        // Check if there are no included pending events in the marking
+        if (_marking.Pending.Any(pendingEvent => _marking.Included.Contains(pendingEvent)))
+            return false;
+        return true;
     }
 
     public DCRMarking<T> Marking => (DCRMarking<T>)_marking.Clone(); 
