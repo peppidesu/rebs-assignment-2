@@ -103,9 +103,5 @@ public class DCRGraph<T> where T : IEvent {
             return false;
         return true;
     }
-
-    
-
-    
 } 
 
