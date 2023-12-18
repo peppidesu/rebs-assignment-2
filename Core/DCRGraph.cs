@@ -8,8 +8,7 @@ public class DCRGraph<T> where T : IEvent {
 
     // nodes
     private readonly HashSet<T> _events = []; 
-    public HashSet<T> Events => new(_events);
-    
+
     // edges
     private readonly Dictionary<T, HashSet<T>> _conditions = [],
                                                _milestones = [],
@@ -17,14 +16,7 @@ public class DCRGraph<T> where T : IEvent {
                                                _excludes = [],
                                                _includes = [];
     
-    public Dictionary<T, HashSet<T>> Conditions => new(_conditions);
-    public Dictionary<T, HashSet<T>> Milestones => new(_milestones);
-    public Dictionary<T, HashSet<T>> Responses => new(_responses);
-    public Dictionary<T, HashSet<T>> Excludes => new(_excludes);
-    public Dictionary<T, HashSet<T>> Includes => new(_includes);
-    
     private DCRMarking<T> _marking = new([], [], []);
-    public DCRMarking<T> Marking => (DCRMarking<T>)_marking.Clone(); 
     
     // simple constructor
     public DCRGraph() { }
@@ -101,8 +93,6 @@ public class DCRGraph<T> where T : IEvent {
         throw new NotImplementedException();
     }
 
-    
-
-    
+    public DCRMarking<T> Marking => (DCRMarking<T>)_marking.Clone(); 
 } 
 
