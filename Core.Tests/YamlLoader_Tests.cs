@@ -32,4 +32,18 @@ public class YamlLoader_Tests {
         
         Console.WriteLine(graph.ToString());
     }
+
+    [Test]
+    public void BuildFromData_ForbidDuplicateEvents() {
+        var graphData = new DCRGraphData {
+            events = ["a", "a", "b"]
+        };
+
+        Assert.Throws<YamlLoaderException>(() => _loader.BuildFromData(graphData));
+    }
+    
+    public void LoadFromString_EmptyGivesDefault() {
+        var graph = _loader.LoadFromString("");
+        
+    }
 }
