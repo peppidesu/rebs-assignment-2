@@ -5,8 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
-    <IsTestProject>true</IsTestProject>
-    <OutputPath>..\bin\$(Configuration)\</OutputPath>    
+    <IsTestProject>true</IsTestProject>    
   </PropertyGroup>
 
   <ItemGroup>
