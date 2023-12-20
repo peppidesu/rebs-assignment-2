@@ -50,6 +50,7 @@ public class DCRGraph<T> where T : IEvent {
     }
 
     // first two are reversed! condition[to] = from
+
     public void AddCondition (T from, T to) => _conditions[to].Add(from);
     public void AddMilestone (T from, T to) => _milestones[to].Add(from);
 
@@ -86,7 +87,29 @@ public class DCRGraph<T> where T : IEvent {
     }
 
     public void Execute(T e) {
-        throw new NotImplementedException();
+        //check if event exists
+        if (!_marking.Included.Contains(e)) 
+            throw new ArgumentException("Event doesn't exist");
+
+        //check if event is enabled
+        if(!IsEnabled(e))
+            throw new ArgumentException("Event is not enabled");
+
+        //event is added to the executed set
+        _marking.Executed.Add(e);
+
+        //event is removed from the pending set
+        _marking.Pending.Remove(e); 
+
+        //all the events that e makes pending are added to the pending set
+        _marking.Pending.UnionWith(_responses[e]);
+
+        //all the events that e excludes are removed from the included set
+        _marking.Included.ExceptWith(_excludes[e]);
+
+        //all the events that e includes are added to the included set
+        _marking.Included.UnionWith(_includes[e]);
+
     }
 
     public bool IsAccepting() {
