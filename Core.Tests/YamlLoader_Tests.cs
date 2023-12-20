@@ -28,9 +28,7 @@ public class YamlLoader_Tests {
           included: ["a", "b"]
           pending: ["b"]
           
-        """);        
-        
-        Console.WriteLine(graph.ToString());
+        """);                        
     }
 
     [Test]
@@ -73,9 +71,11 @@ public class YamlLoader_Tests {
     }
 
     [Test]
-    public void LoadFromString_EmptyGivesDefault() {
+    public void LoadFromString_UndefinedGivesDefault() {
         var expected = new DCRGraph<StringEvent>();
-        var actual = _loader.LoadFromString("");
+        var actual = _loader.LoadFromString("""
+        events: []
+        """);
     
         Assert.That(GraphEquals(expected,actual), Is.True);
     }
