@@ -96,7 +96,7 @@ public class DCRGraph<T> where T : IEvent {
 
     public void Execute(T e) {
         //check if event exists
-        if (!_marking.Included.Contains(e)) 
+        if (!_events.Contains(e)) 
             throw new ArgumentException($"Event '{e}' is not defined in this graph.");
 
         //check if event is enabled

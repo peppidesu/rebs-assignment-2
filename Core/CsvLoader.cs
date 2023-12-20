@@ -6,14 +6,15 @@
 public class CsvLoader
 {
     // TODO: pass `path` as an argument here
-    public Dictionary<string, Queue<string>> LoadCsv(string path)
+    public Dictionary<string, Queue<StringEvent>> LoadCsv(string path)
     {
         // Create Dict
-        Dictionary<string, Queue<string>> idTitleMap = new Dictionary<string, Queue<string>>();
+        var idTitleMap = new Dictionary<string, Queue<StringEvent>>();
 
         
         using (StreamReader reader = new StreamReader(path))
         {
+            reader.ReadLine(); // discard title row
             while (!reader.EndOfStream)
             {
                 
@@ -25,16 +26,16 @@ public class CsvLoader
                 string title = columns[2];
 
                 // Check if ID is already in the dictionary
-                if (idTitleMap.TryGetValue(id, out Queue<string>? titleQueue)) 
+                if (idTitleMap.TryGetValue(id, out Queue<StringEvent>? titleQueue)) 
                 {
                     // Add the title to the existing queue
-                    titleQueue.Enqueue(title);
+                    titleQueue.Enqueue(new StringEvent(title));
                 }
                 else
                 {
                     // Create a new queue for the ID and add the title
-                    titleQueue = new Queue<string>();
-                    titleQueue.Enqueue(title);
+                    titleQueue = new Queue<StringEvent>();
+                    titleQueue.Enqueue(new StringEvent(title));
                     idTitleMap.Add(id, titleQueue);
                 }
 

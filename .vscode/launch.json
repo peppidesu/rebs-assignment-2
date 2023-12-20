@@ -9,8 +9,8 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/App/bin/Debug/net8.0/App.dll",
-            "args": ["/logs/test.csv", "/graphs/test.yaml"],
+            "program": "${workspaceFolder}/bin/Debug/net8.0/App.dll",
+            "args": ["${workspaceFolder}/logs/log.csv", "${workspaceFolder}/graphs/test.yaml"],
             "cwd": "${workspaceFolder}/App",
             "console": "internalConsole",
             "stopAtEntry": false

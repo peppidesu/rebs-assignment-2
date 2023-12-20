@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using CommandLine;
-
+using Core;
 class Program
 {
     public class Options
@@ -17,6 +17,9 @@ class Program
             Required = true
         )]
         public required string Graph { get; set; }
+
+        [Option("run")]
+        public IEnumerable<string>? Runs { get; set; }        
     }
 
     static bool CheckValidPath(string path) {
@@ -44,12 +47,12 @@ class Program
     }
  
     static void Main(string[] args) {
-        var result = Parser.Default.ParseArguments<Options>(args);
+        var parseResult = Parser.Default.ParseArguments<Options>(args);
         
-        if (result.Errors.Any()) {
+        if (parseResult.Errors.Any()) {
             Environment.Exit(1001);
         }
-        Options options = result.Value;        
+        Options options = parseResult.Value;        
 
         if (!CheckValidPath(options.Log)) {
             Environment.Exit(1002);
@@ -59,8 +62,35 @@ class Program
             Environment.Exit(1003);            
         }
         
-        Console.WriteLine(options.Log);
-        Console.WriteLine(options.Graph);
+        var checker = new ConformanceChecker();
+        var csvLoader = new CsvLoader();
+        var yamlLoader = new YamlLoader();
+
+        var logs = csvLoader.LoadCsv(options.Log);
+        if (options.Runs.Any()) {
+            // check for invalid run names
+            if (options.Runs.Except(logs.Keys).Any()) {
+                var invalid = options.Runs.Except(logs.Keys).First();
+                Console.Error.WriteLine($"Invalid run '{invalid}'");
+            }
+            // filter selected runs only
+            logs = logs.IntersectBy(options.Runs, pair => pair.Key).ToDictionary();
+        }
+        
+        var graph = yamlLoader.LoadFromFile(options.Graph);
+        
+        var all = true;
+        foreach (var pair in logs) {            
+            var result = checker.IsConformant(ref graph, pair.Value);
+            if (!result)
+            {
+                all = false;
+                Console.WriteLine($"Run '{pair.Key}' is not conformant.");
+            }
+        }
+        if(all) {
+            Console.WriteLine("All runs are conformant.");
+        }
     }
 }
 

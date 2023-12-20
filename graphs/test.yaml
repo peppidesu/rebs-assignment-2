@@ -1,20 +1,81 @@
 events:
-  - a
-  - b
-  - c
+  - Fill out application
+  - Approved - to board
+  - Change phase to Review
+  - Architect Review
+  - Review
+  - Lawyer Review
+  - Register Decision
+  - Change phase to Board meeting
+  - Round ends
+  - Round approved
+  - Inform application of board review
+  - Reject
+  - Applicant informed
+  - Change phase to Abort
+  - Screening reject
+  - Screen application
+  - Execute pre-decision
+  - Approve
+  - Change phase to Preparation
+  - Set to Pre-approved
+  - Inform applicant of approval
+  - Applicant justifies relevance
+  - Change Phase to Payout
+  - First payment
+  - Payment completed
+  - Change Phase to End Report
+  - Account number changed
+  - Approve changed account
+  - Receive end report
+  - Change phase to Complete
+  - Execute abandon
+  - Change phase to Abandon
 edges:
-  - type: condition
-    from: a
-    to: b
+  - type: exclude
+    from: Change Phase to Payout
+    to: Change Phase to End Report
+  - type: include
+    from: First payment
+    to: Change Phase to End Report
+  - type: include
+    from: Change Phase to Payout
+    to: First payment
   - type: response
-    from: b
-    to: c
-  - type: excludes
-    from: b
-    to: b
-marking:
-  - included: [a, b, c]
-  - pending: [a, b, c]
-  - executed: []
+    from: Change Phase to Payout
+    to: First payment  
+marking:  
+  included: 
+      - Fill out application
+      - Approved - to board
+      - Change phase to Review
+      - Architect Review
+      - Review
+      - Lawyer Review
+      - Register Decision
+      - Change phase to Board meeting
+      - Round ends
+      - Round approved
+      - Inform application of board review
+      - Reject
+      - Applicant informed
+      - Change phase to Abort
+      - Screening reject
+      - Screen application
+      - Execute pre-decision
+      - Approve
+      - Change phase to Preparation
+      - Set to Pre-approved
+      - Inform applicant of approval
+      - Applicant justifies relevance
+      - Change Phase to Payout
+      - Payment completed
+      - Change Phase to End Report
+      - Account number changed
+      - Approve changed account
+      - Receive end report
+      - Change phase to Complete
+      - Execute abandon
+      - Change phase to Abandon
 
 

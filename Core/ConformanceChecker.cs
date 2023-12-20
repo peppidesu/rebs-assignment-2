@@ -4,7 +4,7 @@ namespace Core;
 
 public class ConformanceChecker {
 
-    public bool IsConformant<TEvent>(DCRGraph<TEvent> graph, Queue<TEvent> log) where TEvent : IEvent {
+    public bool IsConformant<TEvent>(ref DCRGraph<TEvent> graph, Queue<TEvent> log) where TEvent : IEvent {
         var initState = graph.Marking;
 
         while (log.TryDequeue(out TEvent? e)) {
