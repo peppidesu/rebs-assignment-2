@@ -31,7 +31,7 @@ public class YamlLoader {
         return new HashSet<StringEvent>(arr.Select(e => new StringEvent(e)));
     }      
 
-    private DCRGraph<StringEvent> BuildFromData(DCRGraphData data) {
+    public DCRGraph<StringEvent> BuildFromData(DCRGraphData data) {
         var events = EventSetFromStringArray(data.events);
         
         if (data.events.Length > events.Count) {
