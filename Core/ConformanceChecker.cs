@@ -3,10 +3,6 @@ namespace Core;
 
 
 public class ConformanceChecker {
-    
-    public ConformanceChecker() {
-
-    }
 
     public bool IsConformant<TEvent>(DCRGraph<TEvent> graph, Queue<TEvent> log) where TEvent : IEvent {
         var initState = graph.Marking;
