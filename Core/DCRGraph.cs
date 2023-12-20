@@ -97,11 +97,11 @@ public class DCRGraph<T> where T : IEvent {
     public void Execute(T e) {
         //check if event exists
         if (!_marking.Included.Contains(e)) 
-            throw new ArgumentException("Event doesn't exist");
+            throw new ArgumentException($"Event '{e}' is not defined in this graph.");
 
         //check if event is enabled
         if(!IsEnabled(e))
-            throw new ArgumentException("Event is not enabled");
+            throw new EventNotEnabledException($"Event '{e}' is not enabled");
 
         //event is added to the executed set
         _marking.Executed.Add(e);
@@ -126,5 +126,11 @@ public class DCRGraph<T> where T : IEvent {
             return false;
         return true;
     }
+
+    public void Reset(DCRMarking<T> marking) {
+        _marking = marking;
+    }
 } 
 
+public class EventNotEnabledException(string message) : Exception(message) {}
+ 
