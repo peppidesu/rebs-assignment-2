@@ -25,7 +25,7 @@ public class CsvLoader
                 string title = columns[2];
 
                 // Check if ID is already in the dictionary
-                if (idTitleMap.TryGetValue(id, out Queue<string> titleQueue)) 
+                if (idTitleMap.TryGetValue(id, out Queue<string>? titleQueue)) 
                 {
                     // Add the title to the existing queue
                     titleQueue.Enqueue(title);
@@ -54,8 +54,8 @@ public class CsvLoader
     {
         // Example usage
         string csvFilePath = "../logs/log.csv";
-        CsvLoader csvLoader = new CsvLoader(csvFilePath);
-        Dictionary<string, Queue<string>> idTitleMap = csvLoader.LoadCsv();
+        CsvLoader csvLoader = new CsvLoader();
+        Dictionary<string, Queue<string>> idTitleMap = csvLoader.LoadCsv(csvFilePath);
 
         // Display the loaded CSV data
         foreach (var entry in idTitleMap)
