@@ -5,24 +5,19 @@
 /// </summary>
 public class CsvLoader
 {
-    private string filePath;
-
-    public CsvLoader(string filePath)
-    {
-        this.filePath = filePath;
-    }
-
-    public Dictionary<string, Queue<string>> LoadCsv()
+    // TODO: pass `path` as an argument here
+    public Dictionary<string, Queue<string>> LoadCsv(string path)
     {
         // Create Dict
         Dictionary<string, Queue<string>> idTitleMap = new Dictionary<string, Queue<string>>();
 
-
-        using (StreamReader reader = new StreamReader(filePath))
+        
+        using (StreamReader reader = new StreamReader(path))
         {
             while (!reader.EndOfStream)
             {
-                string line = reader.ReadLine();
+                
+                string line = reader.ReadLine()!;
                 string[] columns = line.Split(';');
 
                 // Grab relevant columns
@@ -30,7 +25,7 @@ public class CsvLoader
                 string title = columns[2];
 
                 // Check if ID is already in the dictionary
-                if (idTitleMap.TryGetValue(id, out Queue<string> titleQueue))
+                if (idTitleMap.TryGetValue(id, out Queue<string> titleQueue)) 
                 {
                     // Add the title to the existing queue
                     titleQueue.Enqueue(title);
