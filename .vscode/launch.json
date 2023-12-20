@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             "program": "${workspaceFolder}/App/bin/Debug/net8.0/App.dll",
-            "args": [],
+            "args": ["/logs/test.csv", "/graphs/test.yaml"],
             "cwd": "${workspaceFolder}/App",
             "console": "internalConsole",
             "stopAtEntry": false
