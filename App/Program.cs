@@ -5,9 +5,17 @@ class Program
 {
     public class Options
     {
-        [Value(0, Required = true, HelpText = "The path to the ")]
+        [Value(0, 
+            MetaName = "log",
+            HelpText = "The path to the event log file (.csv)",
+            Required = true
+        )]
         public required string Log { get; set; }
-        [Value(1, Required = true)]
+        [Value(1, 
+            MetaName = "graph",
+            HelpText = "The path to the DCR graph file (.yaml)",
+            Required = true
+        )]
         public required string Graph { get; set; }
     }
 
