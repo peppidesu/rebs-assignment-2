@@ -14,6 +14,7 @@ public class CsvLoader
         
         using (StreamReader reader = new StreamReader(path))
         {
+            reader.ReadLine(); // discard title row
             while (!reader.EndOfStream)
             {
                 

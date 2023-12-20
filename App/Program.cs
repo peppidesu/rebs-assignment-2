@@ -17,6 +17,9 @@ class Program
             Required = true
         )]
         public required string Graph { get; set; }
+
+        [Option("run")]
+        public IEnumerable<string>? Runs { get; set; }        
     }
 
     static bool CheckValidPath(string path) {
@@ -64,17 +67,30 @@ class Program
         var yamlLoader = new YamlLoader();
 
         var logs = csvLoader.LoadCsv(options.Log);
+        if (options.Runs.Any()) {
+            // check for invalid run names
+            if (options.Runs.Except(logs.Keys).Any()) {
+                var invalid = options.Runs.Except(logs.Keys).First();
+                Console.Error.WriteLine($"Invalid run '{invalid}'");
+            }
+            // filter selected runs only
+            logs = logs.IntersectBy(options.Runs, pair => pair.Key).ToDictionary();
+        }
+        
         var graph = yamlLoader.LoadFromFile(options.Graph);
-
+        
+        var all = true;
         foreach (var pair in logs) {            
             var result = checker.IsConformant(ref graph, pair.Value);
-            if (result) {
-                Console.WriteLine("Run '{pair.Key}' is conformant.");
-            } else {
-                Console.WriteLine("Run '{pair.Key}' is not conformant.");
+            if (!result)
+            {
+                all = false;
+                Console.WriteLine($"Run '{pair.Key}' is not conformant.");
             }
         }
-
+        if(all) {
+            Console.WriteLine("All runs are conformant.");
+        }
     }
 }
 

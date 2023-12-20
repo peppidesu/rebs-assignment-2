@@ -36,7 +36,7 @@ public class YamlLoader {
         
         if (data.events.Length > events.Count) {
             var dup = events.First(a => data.events.Count(b => a.Name == b) > 1);
-            throw new YamlLoaderException($"Duplicate event '{dup}' in events list");
+            throw new YamlLoaderException($"Duplicate event '{dup.Name}' in events list");
         }        
         
         Dictionary<StringEvent, HashSet<StringEvent>> 
@@ -67,7 +67,7 @@ public class YamlLoader {
             }
             catch (InvalidOperationException) {
                 throw new YamlLoaderException(
-                    $"Reference to unknown event '{from}' in '{edge}'"
+                    $"Reference to unknown event '{from}' in edge '{edge}'"
                 );
             }
 
@@ -79,29 +79,24 @@ public class YamlLoader {
                     $"Reference to unknown event '{to}' in edge '{edge}'"
                 );
             }
-        
-            void AddEdgeWithDupCheck(Dictionary<StringEvent,HashSet<StringEvent>> dict){
-                if (!dict[to].Add(from))
-                    Console.WriteLine($"[YamlLoaderWarning]: Encountered duplicate edge '{edge}'");
-            }
-
+                    
             // wish i had rusts enum structs rn
             switch (edge.type) {
                 
                 case "condition":
-                    AddEdgeWithDupCheck(conditions);
+                    conditions[to].Add(from);
                     break;
                 case "milestone":
-                    AddEdgeWithDupCheck(milestones);
+                    milestones[to].Add(from);
                     break;
                 case "response":
-                    AddEdgeWithDupCheck(responses);
+                    responses[from].Add(to);
                     break;
                 case "exclude":
-                    AddEdgeWithDupCheck(excludes);
+                    excludes[from].Add(to);
                     break;
                 case "include":
-                    AddEdgeWithDupCheck(includes);
+                    includes[from].Add(to);
                     break;
                 default:
                     throw new YamlLoaderException(
@@ -119,21 +114,21 @@ public class YamlLoader {
         {
             var diff = executed.Except(events);
             if (diff.Any()) {
-                throw new YamlLoaderException($"Reference to unknown event '{diff.First()}' in execuded list");
+                throw new YamlLoaderException($"Reference to unknown event '{diff.First().Name}' in execuded list");
             }
         }
         
         {
             var diff = included.Except(events);
             if (diff.Any()) {
-                throw new YamlLoaderException($"Reference to unknown event '{diff.First()}' in included list");
+                throw new YamlLoaderException($"Reference to unknown event '{diff.First().Name}' in included list");
             }
         }
 
         {
             var diff = pending.Except(events);
             if (diff.Any()) {
-                throw new YamlLoaderException($"Reference to unknown event '{diff.First()}' in pending list");
+                throw new YamlLoaderException($"Reference to unknown event '{diff.First().Name}' in pending list");
             }
         }
 
