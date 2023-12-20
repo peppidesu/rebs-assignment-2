@@ -19,29 +19,28 @@ class Program
         public required string Graph { get; set; }
     }
 
-    static string? OpenFileSafe(string path) {
+    static bool CheckValidPath(string path) {
         
+        if (!File.Exists(path)) {
+            Console.Error.WriteLine($"[Error] File does not exist: '{path}'");
+            return false;
+        }
         try {
-            string result = File.ReadAllText(path);
-            Console.WriteLine();
-            return result;
-        }
-        catch (DirectoryNotFoundException) {
-            Console.Error.WriteLine($"[Error] Path does not exist: '{path}'");
-            
-        }
-        catch (FileNotFoundException) {
-            Console.Error.WriteLine($"[Error] Path does not exist: '{path}'");
+            var fs = File.Open(path, FileMode.Open);
+            fs.Dispose();
         }
         catch (UnauthorizedAccessException e) {
             Console.Error.WriteLine($"[Error] Cannot open file '{path}': Unauthorized access.");
             Console.Error.WriteLine($"Message: {e.Message}");
+            return false;
         }
         catch (Exception e) {
             Console.Error.WriteLine($"[Error] Cannot open file '{path}': Unknown error.");
             Console.Error.WriteLine($"Message: {e.Message}");
+            return false;
         }        
-        return null;
+        
+        return true;
     }
  
     static void Main(string[] args) {
@@ -52,17 +51,16 @@ class Program
         }
         Options options = result.Value;        
 
-        string? log = OpenFileSafe(options.Log);
-        if (log == null) {
+        if (!CheckValidPath(options.Log)) {
             Environment.Exit(1002);
         }
-        string? graph = OpenFileSafe(options.Graph);
-        if (graph == null) {
+        
+        if (!CheckValidPath(options.Graph)) {
             Environment.Exit(1003);            
         }
         
-        Console.WriteLine(log);
-        Console.WriteLine(graph);
+        Console.WriteLine(options.Log);
+        Console.WriteLine(options.Graph);
     }
 }
 
