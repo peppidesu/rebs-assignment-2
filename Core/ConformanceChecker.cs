@@ -20,6 +20,11 @@ public class ConformanceChecker {
                 return false;
             }
         }
+        if (!graph.IsAccepting()) {
+            graph.Reset(initState);
+            return false;
+        }
+        
         graph.Reset(initState);
         return true;
     }
