@@ -1,0 +1,20 @@
+events:
+  - a
+  - b
+  - c
+edges:
+  - type: condition
+    from: a
+    to: b
+  - type: response
+    from: b
+    to: c
+  - type: excludes
+    from: b
+    to: b
+marking:
+  - included: [a, b, c]
+  - pending: [a, b, c]
+  - executed: []
+
+
