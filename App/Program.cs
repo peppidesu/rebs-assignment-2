@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using CommandLine;
-
+using Core;
 class Program
 {
     public class Options
@@ -44,12 +44,12 @@ class Program
     }
  
     static void Main(string[] args) {
-        var result = Parser.Default.ParseArguments<Options>(args);
+        var parseResult = Parser.Default.ParseArguments<Options>(args);
         
-        if (result.Errors.Any()) {
+        if (parseResult.Errors.Any()) {
             Environment.Exit(1001);
         }
-        Options options = result.Value;        
+        Options options = parseResult.Value;        
 
         if (!CheckValidPath(options.Log)) {
             Environment.Exit(1002);
@@ -59,8 +59,22 @@ class Program
             Environment.Exit(1003);            
         }
         
-        Console.WriteLine(options.Log);
-        Console.WriteLine(options.Graph);
+        var checker = new ConformanceChecker();
+        var csvLoader = new CsvLoader();
+        var yamlLoader = new YamlLoader();
+
+        var logs = csvLoader.LoadCsv(options.Log);
+        var graph = yamlLoader.LoadFromFile(options.Graph);
+
+        foreach (var pair in logs) {            
+            var result = checker.IsConformant(ref graph, pair.Value);
+            if (result) {
+                Console.WriteLine("Run '{pair.Key}' is conformant.");
+            } else {
+                Console.WriteLine("Run '{pair.Key}' is not conformant.");
+            }
+        }
+
     }
 }
 
