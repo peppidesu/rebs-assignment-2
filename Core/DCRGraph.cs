@@ -89,11 +89,11 @@ public class DCRGraph<T> where T : IEvent {
     public void Execute(T e) {
         //check if event exists
         if (!_marking.Included.Contains(e)) 
-            throw new ArgumentException("event doesnt exist");
+            throw new ArgumentException("Event doesn't exist");
 
         //check if event is enabled
         if(!IsEnabled(e))
-            throw new ArgumentException("event is not enabled");
+            throw new ArgumentException("Event is not enabled");
 
         //event is added to the executed set
         _marking.Executed.Add(e);
