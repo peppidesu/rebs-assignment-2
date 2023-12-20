@@ -18,7 +18,7 @@ public class DCRGraph_Execute {
         var graph = new DCRGraph<IEvent>();    
         graph.AddEvent(a);        
 
-        Assert.Throws<ArgumentException>(() => graph.Execute(a));
+        Assert.Throws<EventNotEnabledException>(() => graph.Execute(a));
     }
 
     [Test]
