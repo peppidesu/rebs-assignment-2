@@ -32,18 +32,131 @@ events:
   - Execute abandon
   - Change phase to Abandon
 edges:
+  - type: condition
+    from: Fill out application
+    to: Lawyer review
+  - type: condition
+    from: Fill out application
   - type: exclude
-    from: Change Phase to Payout
-    to: Change Phase to End Report
+    from: Lawyer review
+    to: Architect review
+  - type: exclude
+    from: Architect review
+    to: Lawyer review
+    to: Architect review
   - type: include
-    from: First payment
-    to: Change Phase to End Report
+    from: Lawyer review
+    to: Approve
+  - type: include 
+    from: Architect review
+    to: Approve
   - type: include
-    from: Change Phase to Payout
+    from: Lawyer review
+    to: Reject
+  - type: include 
+    from: Architect review
+    to: Reject
+  - type: condition
+    from: Reject
+    to: Applicant informed
+  - type: response
+    from: Reject
+    to: Applicant informed
+  - type: condition
+    from: Applicant informed
+    to: Change phase to abort
+  - type: response
+    from: Applicant informed
+    to: Change phase to abort
+  - type: condition
+    from: Approve
+    to: Change phase to payout
+  - type: response
+    from: Approve
+    to: Change phase to payout
+  - type: condition
+    from: Change phase to payout
+    to: Account number changed
+  - type: exclude
+    from: Change phase to payout
+    to: Change phase to end report
+  - type: include
+    from: Change phase to payout
     to: First payment
   - type: response
-    from: Change Phase to Payout
-    to: First payment  
+    from: Change phase to payout
+    to: First payment
+  - type: exclude
+    from: Account number changed
+    to: First payment
+  - type: condition
+    from: Account number changed
+    to: Approve account change
+  - type: include
+    from: Approve account change
+    to: First payment
+  - type: exclude
+    from: First payment
+    to: First payment
+  - type: include
+    from: First payment
+    to: Undo payment
+  - type: include
+    from: Undo payment
+    to: First payment
+  - type: include
+    from: First payment
+    to: Change phase to end report
+  - type: exclude
+    from: Undo payment
+    to: Undo payment
+  - type: exclude
+    from: Undo payment
+    to: Change phase to end report
+  - type: response
+    from: Execute abandon
+    to: Change phase to abandon
+    #From execute abandon to the all of them:
+  - type: exclude
+    from: Execute abandon
+    to: Change phase to end report
+  - type: exclude
+    from: Execute abandon
+    to: First payment
+  - type: exclude
+    from: Execute abandon
+    to: Undo payment
+  - type: exclude
+    from: Execute abandon
+    to: Approve account change
+  - type: exclude
+    from: Execute abandon
+    to: Change phase to payout
+  - type: exclude
+    from: Execute abandon
+    to: Account number changed
+  - type: exclude
+    from: Execute abandon
+    to: Change phase to abort
+  - type: exclude
+    from: Execute abandon
+    to: Applicant informed
+  - type: exclude
+    from: Execute abandon
+    to: Reject
+  - type: exclude
+    from: Execute abandon
+    to: Approve
+  - type: exclude
+    from: Execute abandon
+    to: Architect review
+  - type: exclude
+    from: Execute abandon
+    to: Lawyer review
+  - type: exclude
+    from: Execute abandon
+    to: Fill out application
+
 marking:  
   included: 
       - Fill out application
