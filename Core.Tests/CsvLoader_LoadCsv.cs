@@ -19,7 +19,7 @@ public class CsvLoaderTests
         CsvLoader csvLoader = new CsvLoader();
 
         // Do the thing
-        Dictionary<string, Queue<string>> idTitleMap = csvLoader.LoadCsv(tempFilePath);
+        Dictionary<string, Queue<StringEvent>> idTitleMap = csvLoader.LoadCsv(tempFilePath);
 
         // Tests
         Assert.That(idTitleMap, Has.Count.EqualTo(2));
