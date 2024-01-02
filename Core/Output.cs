@@ -7,7 +7,7 @@ public enum LogLevel {
     Error
 }
 public class Output {
-    public static LogLevel Level { get; set; }
+    public static LogLevel Level { get; set; } = LogLevel.Info;
     
     public static void Trace(string text) {
         if (Level == LogLevel.Trace) {
