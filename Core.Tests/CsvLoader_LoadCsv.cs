@@ -7,7 +7,8 @@ public class CsvLoaderTests
     public void LoadCsv_WithValidCsvData_ReturnsCorrectDictionary()
     {
         // Test data
-        string csvData = "1;Event1;Title1\n" +
+        string csvData = "\n" +
+                         "1;Event1;Title1\n" +
                          "1;Event2;Title2\n" +
                          "2;Event3;Title3\n" +
                          "2;Event4;Title4;Role1";
