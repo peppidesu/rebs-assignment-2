@@ -26,35 +26,36 @@ events:
   - Payment completed
   - Change Phase to End Report
   - Account number changed
-  - Approve changed account
+  - Approve account change
   - Receive end report
   - Change phase to Complete
   - Execute abandon
   - Change phase to Abandon
+  - Undo payment
 edges:
   - type: condition
     from: Fill out application
-    to: Lawyer review
+    to: Lawyer Review
   - type: condition
     from: Fill out application
+    to: Architect Review
   - type: exclude
-    from: Lawyer review
-    to: Architect review
+    from: Lawyer Review
+    to: Architect Review
   - type: exclude
-    from: Architect review
-    to: Lawyer review
-    to: Architect review
+    from: Architect Review
+    to: Lawyer Review
   - type: include
-    from: Lawyer review
+    from: Lawyer Review
     to: Approve
   - type: include 
-    from: Architect review
+    from: Architect Review
     to: Approve
   - type: include
-    from: Lawyer review
+    from: Lawyer Review
     to: Reject
   - type: include 
-    from: Architect review
+    from: Architect Review
     to: Reject
   - type: condition
     from: Reject
@@ -64,27 +65,27 @@ edges:
     to: Applicant informed
   - type: condition
     from: Applicant informed
-    to: Change phase to abort
+    to: Change phase to Abort
   - type: response
     from: Applicant informed
-    to: Change phase to abort
+    to: Change phase to Abort
   - type: condition
     from: Approve
-    to: Change phase to payout
+    to: Change Phase to Payout
   - type: response
     from: Approve
-    to: Change phase to payout
+    to: Change Phase to Payout
   - type: condition
-    from: Change phase to payout
+    from: Change Phase to Payout
     to: Account number changed
   - type: exclude
-    from: Change phase to payout
-    to: Change phase to end report
+    from: Change Phase to Payout
+    to: Change Phase to End Report
   - type: include
-    from: Change phase to payout
+    from: Change Phase to Payout
     to: First payment
   - type: response
-    from: Change phase to payout
+    from: Change Phase to Payout
     to: First payment
   - type: exclude
     from: Account number changed
@@ -106,20 +107,20 @@ edges:
     to: First payment
   - type: include
     from: First payment
-    to: Change phase to end report
+    to: Change Phase to End Report
   - type: exclude
     from: Undo payment
     to: Undo payment
   - type: exclude
     from: Undo payment
-    to: Change phase to end report
+    to: Change Phase to End Report
   - type: response
     from: Execute abandon
-    to: Change phase to abandon
+    to: Change phase to Abandon
     #From execute abandon to the all of them:
   - type: exclude
     from: Execute abandon
-    to: Change phase to end report
+    to: Change Phase to End Report
   - type: exclude
     from: Execute abandon
     to: First payment
@@ -131,13 +132,13 @@ edges:
     to: Approve account change
   - type: exclude
     from: Execute abandon
-    to: Change phase to payout
+    to: Change Phase to Payout
   - type: exclude
     from: Execute abandon
     to: Account number changed
   - type: exclude
     from: Execute abandon
-    to: Change phase to abort
+    to: Change phase to Abort
   - type: exclude
     from: Execute abandon
     to: Applicant informed
@@ -149,10 +150,10 @@ edges:
     to: Approve
   - type: exclude
     from: Execute abandon
-    to: Architect review
+    to: Architect Review
   - type: exclude
     from: Execute abandon
-    to: Lawyer review
+    to: Lawyer Review
   - type: exclude
     from: Execute abandon
     to: Fill out application
@@ -185,10 +186,10 @@ marking:
       - Payment completed
       - Change Phase to End Report
       - Account number changed
-      - Approve changed account
+      - Approve account change
       - Receive end report
       - Change phase to Complete
       - Execute abandon
       - Change phase to Abandon
-
+      - Undo payment
 
