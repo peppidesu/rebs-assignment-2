@@ -1,9 +1,9 @@
 namespace Core;
 
-public struct DCRMarking<T> : ICloneable where T : IEvent { 
-    public readonly HashSet<T> Executed = [], Included = [], Pending = [];
+public struct DCRMarking { 
+    public readonly HashSet<Event> Executed = [], Included = [], Pending = [];
 
-    public DCRMarking(HashSet<T> executed, HashSet<T> included, HashSet<T> pending) {
+    public DCRMarking(HashSet<Event> executed, HashSet<Event> included, HashSet<Event> pending) {
         Executed = executed;
         Included = included;
         Pending = pending;
@@ -11,10 +11,10 @@ public struct DCRMarking<T> : ICloneable where T : IEvent {
 
     public readonly object Clone()
     {
-        return new DCRMarking<T>(
-            new HashSet<T>(Executed), 
-            new HashSet<T>(Included), 
-            new HashSet<T>(Pending)
+        return new DCRMarking(
+            new HashSet<Event>(Executed), 
+            new HashSet<Event>(Included), 
+            new HashSet<Event>(Pending)
         );
     }
 }

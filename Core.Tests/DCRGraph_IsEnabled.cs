@@ -8,19 +8,19 @@ public class DCRGraph_IsEnabled {
 
     [Test]
     public void IsEnabled_NotIncluded_ReturnsFalse() {
-        var a = Substitute.For<IEvent>();
+        var a = Substitute.For<Event>();
 
-        var graph = new DCRGraph<IEvent>();
+        var graph = new DCRGraph();
         graph.AddEvent(a);
 
         Assert.That(graph.IsEnabled(a), Is.False);
     }
     [Test]
     public void IsEnabled_HasUnexecutedCondition_ReturnsFalse() {
-        var a = Substitute.For<IEvent>();
-        var b = Substitute.For<IEvent>();
+        var a = Substitute.For<Event>();
+        var b = Substitute.For<Event>();
 
-        var graph = new DCRGraph<IEvent>();
+        var graph = new DCRGraph();
         
         graph.AddEvent(a);
         graph.AddEvent(b);
@@ -32,10 +32,10 @@ public class DCRGraph_IsEnabled {
     
     [Test]
     public void IsEnabled_HasPendingMilestone_ReturnsFalse() {
-        var a = Substitute.For<IEvent>();
-        var b = Substitute.For<IEvent>();
+        var a = Substitute.For<Event>();
+        var b = Substitute.For<Event>();
 
-        var graph = new DCRGraph<IEvent>();
+        var graph = new DCRGraph();
         
         graph.AddEvent(a);
         graph.AddEvent(b);
@@ -47,11 +47,11 @@ public class DCRGraph_IsEnabled {
     }
     [Test]
     public void IsEnabled_Included_AllConditionsExecuted_NoPendingMilestones_ReturnsTrue() {
-        var a = Substitute.For<IEvent>();
-        var b = Substitute.For<IEvent>();
-        var c = Substitute.For<IEvent>();
+        var a = Substitute.For<Event>();
+        var b = Substitute.For<Event>();
+        var c = Substitute.For<Event>();
 
-        var graph = new DCRGraph<IEvent>();
+        var graph = new DCRGraph();
         
         graph.AddEvent(a);
         graph.AddEvent(b);
@@ -65,9 +65,9 @@ public class DCRGraph_IsEnabled {
     }
     [Test]
     public void IsEnabled_Included_NoConditions_NoMilestones_ReturnsTrue() {
-        var a = Substitute.For<IEvent>();
+        var a = Substitute.For<Event>();
 
-        var graph = new DCRGraph<IEvent>();
+        var graph = new DCRGraph();
         graph.AddEvent(a);
         graph.MarkEventAsIncluded(a);
 

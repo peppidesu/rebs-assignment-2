@@ -3,40 +3,39 @@ namespace Core;
 /// <summary>
 /// Implementation of a DCR Graph.
 /// </summary>
-/// <typeparam name="T"></typeparam>
-public class DCRGraph<T> where T : IEvent { 
+public class DCRGraph { 
 
     // nodes
-    private readonly HashSet<T> _events = []; 
-    public HashSet<T> Events => new(_events);
+    private readonly HashSet<Event> _events = []; 
+    public HashSet<Event> Events => new(_events);
     
     // edges
-    private readonly Dictionary<T, HashSet<T>> _conditions = [],
+    private readonly Dictionary<Event, HashSet<Event>> _conditions = [],
                                                _milestones = [],
                                                _responses = [],
                                                _excludes = [],
                                                _includes = [];
     
-    public Dictionary<T, HashSet<T>> Conditions => new(_conditions);
-    public Dictionary<T, HashSet<T>> Milestones => new(_milestones);
-    public Dictionary<T, HashSet<T>> Responses => new(_responses);
-    public Dictionary<T, HashSet<T>> Excludes => new(_excludes);
-    public Dictionary<T, HashSet<T>> Includes => new(_includes);
+    public Dictionary<Event, HashSet<Event>> Conditions => new(_conditions);
+    public Dictionary<Event, HashSet<Event>> Milestones => new(_milestones);
+    public Dictionary<Event, HashSet<Event>> Responses => new(_responses);
+    public Dictionary<Event, HashSet<Event>> Excludes => new(_excludes);
+    public Dictionary<Event, HashSet<Event>> Includes => new(_includes);
     
-    private DCRMarking<T> _marking = new([], [], []);
-    public DCRMarking<T> Marking => (DCRMarking<T>)_marking.Clone(); 
+    private DCRMarking _marking = new([], [], []);
+    public DCRMarking Marking => (DCRMarking)_marking.Clone(); 
     
     // simple constructor
     public DCRGraph() { }
 
     // constructor with full initialization 
-    public DCRGraph(HashSet<T> events, 
-                    Dictionary<T, HashSet<T>> conditions, 
-                    Dictionary<T, HashSet<T>> milestones, 
-                    Dictionary<T, HashSet<T>> responses, 
-                    Dictionary<T, HashSet<T>> excludes, 
-                    Dictionary<T, HashSet<T>> includes,
-                    DCRMarking<T> marking) {
+    public DCRGraph(HashSet<Event> events, 
+                    Dictionary<Event, HashSet<Event>> conditions, 
+                    Dictionary<Event, HashSet<Event>> milestones, 
+                    Dictionary<Event, HashSet<Event>> responses, 
+                    Dictionary<Event, HashSet<Event>> excludes, 
+                    Dictionary<Event, HashSet<Event>> includes,
+                    DCRMarking marking) {
         _events = events;
         _conditions = conditions;
         _milestones = milestones;
@@ -48,7 +47,7 @@ public class DCRGraph<T> where T : IEvent {
 
     #region Builder functions
 
-    public void AddEvent(T e) {
+    public void AddEvent(Event e) {
         _events.Add(e);
         _conditions[e] = [];
         _milestones[e] = [];
@@ -59,16 +58,16 @@ public class DCRGraph<T> where T : IEvent {
 
     // first two are reversed! condition[to] = from
 
-    public void AddCondition (T from, T to) => _conditions[to].Add(from);
-    public void AddMilestone (T from, T to) => _milestones[to].Add(from);
+    public void AddCondition (Event from, Event to) => _conditions[to].Add(from);
+    public void AddMilestone (Event from, Event to) => _milestones[to].Add(from);
 
-    public void AddResponse  (T from, T to) => _responses[from].Add(to);
-    public void AddExclude   (T from, T to) => _excludes[from].Add(to);
-    public void AddInclude   (T from, T to) => _includes[from].Add(to);
+    public void AddResponse  (Event from, Event to) => _responses[from].Add(to);
+    public void AddExclude   (Event from, Event to) => _excludes[from].Add(to);
+    public void AddInclude   (Event from, Event to) => _includes[from].Add(to);
 
-    public void MarkEventAsIncluded(T e) => _marking.Included.Add(e);
-    public void MarkEventAsExecuted(T e) => _marking.Executed.Add(e);
-    public void MarkEventAsPending (T e) => _marking.Pending.Add(e);
+    public void MarkEventAsIncluded(Event e) => _marking.Included.Add(e);
+    public void MarkEventAsExecuted(Event e) => _marking.Executed.Add(e);
+    public void MarkEventAsPending (Event e) => _marking.Pending.Add(e);
 
     #endregion
 
@@ -77,7 +76,7 @@ public class DCRGraph<T> where T : IEvent {
     /// </summary>
     /// <param name="e">The event to check.</param>
     /// <returns></returns>
-    public bool IsEnabled(T e) {
+    public bool IsEnabled(Event e) {
         // if e is not included, it is not enabled
         if (!_marking.Included.Contains(e)) 
             return false;
@@ -94,7 +93,7 @@ public class DCRGraph<T> where T : IEvent {
         return true;
     }
 
-    public void Execute(T e) {
+    public void Execute(Event e) {
         //check if event exists
         if (!_events.Contains(e)) 
             throw new ArgumentException($"Event '{e}' is not defined in this graph.");
@@ -122,12 +121,12 @@ public class DCRGraph<T> where T : IEvent {
 
     public bool IsAccepting() {
         // Check if there are no included pending events in the marking
-        if (_marking.Pending.Any(pendingEvent => _marking.Included.Contains(pendingEvent)))
+        if (_marking.Pending.Any(_marking.Included.Contains))
             return false;
         return true;
     }
 
-    public void Reset(DCRMarking<T> marking) {
+    public void Reset(DCRMarking marking) {
         _marking = marking;
     }
 } 

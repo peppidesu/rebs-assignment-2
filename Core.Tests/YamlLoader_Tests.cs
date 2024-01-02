@@ -44,7 +44,7 @@ public class YamlLoader_Tests {
     /// WARNING!! THIS FUNCTION IS VERY SLOW!
     /// </summary>
     /// <returns></returns>
-    internal bool GraphEquals(DCRGraph<StringEvent> lhs, DCRGraph<StringEvent> rhs) {
+    internal bool GraphEquals(DCRGraph lhs, DCRGraph rhs) {
         return EventsEquals(lhs.Events, rhs.Events)
             && EdgesEquals(lhs.Conditions, rhs.Conditions)
             && EdgesEquals(lhs.Milestones, rhs.Milestones)
@@ -57,8 +57,8 @@ public class YamlLoader_Tests {
     }
 
     internal bool EdgesEquals(
-        Dictionary<StringEvent,HashSet<StringEvent>> lhs, 
-        Dictionary<StringEvent,HashSet<StringEvent>> rhs) {
+        Dictionary<Event,HashSet<Event>> lhs, 
+        Dictionary<Event,HashSet<Event>> rhs) {
             return lhs.Order()
                 .Zip(rhs.Order())
                 .All((pair) => {
@@ -66,13 +66,13 @@ public class YamlLoader_Tests {
                     && EventsEquals(pair.First.Value, pair.Second.Value);
                 });
     }
-    internal bool EventsEquals(HashSet<StringEvent> lhs, HashSet<StringEvent> rhs) {
+    internal bool EventsEquals(HashSet<Event> lhs, HashSet<Event> rhs) {
         return lhs.Order().SequenceEqual(rhs.Order());
     }
 
     [Test]
     public void LoadFromString_UndefinedGivesDefault() {
-        var expected = new DCRGraph<StringEvent>();
+        var expected = new DCRGraph();
         var actual = _loader.LoadFromString("""
         events: []
         """);
