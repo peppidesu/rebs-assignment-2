@@ -8,12 +8,12 @@ public class YamlLoader {
         _deserializer = new DeserializerBuilder().Build();
     }
 
-    public DCRGraph<StringEvent> LoadFromFile(string path) {
+    public DCRGraph LoadFromFile(string path) {
         var yaml = File.ReadAllText(path);
         return LoadFromString(yaml);
     }
 
-    public DCRGraph<StringEvent> LoadFromString(string yaml) {
+    public DCRGraph LoadFromString(string yaml) {
         var graphData = _deserializer.Deserialize<DCRGraphData>(yaml);
 
         // remove null arrays
@@ -27,19 +27,19 @@ public class YamlLoader {
     }
 
 
-    private static HashSet<StringEvent> EventSetFromStringArray(string[] arr) {
-        return new HashSet<StringEvent>(arr.Select(e => new StringEvent(e)));
+    private static HashSet<Event> EventSetFromStringArray(string[] arr) {
+        return new HashSet<Event>(arr.Select(e => new StringEvent(e)));
     }      
 
-    public DCRGraph<StringEvent> BuildFromData(DCRGraphData data) {
+    public DCRGraph BuildFromData(DCRGraphData data) {
         var events = EventSetFromStringArray(data.events);
         
         if (data.events.Length > events.Count) {
-            var dup = events.First(a => data.events.Count(b => a.Name == b) > 1);
-            throw new YamlLoaderException($"Duplicate event '{dup.Name}' in events list");
+            var dup = events.First(a => data.events.Count(b => a.Id == b) > 1);
+            throw new YamlLoaderException($"Duplicate event '{dup.Id}' in events list");
         }        
         
-        Dictionary<StringEvent, HashSet<StringEvent>> 
+        Dictionary<Event, HashSet<Event>> 
             conditions = [],
             milestones = [],
             responses = [],
@@ -57,26 +57,25 @@ public class YamlLoader {
         foreach (var edge in data.edges) {
             // stupid unreachable dummy values because c# does not have errors 
             // as values or some other way to do this better
-            StringEvent from = default,
-                        to = default;
+            Event from = null, to = null;                        
 
             // we probably want proper line + column errors here but this does 
             // the job well enough
             try {
-                from = events.First(e => e.Name == edge.from);                        
+                from = events.First(e => e.Id == edge.from);                        
             }
             catch (InvalidOperationException) {
                 throw new YamlLoaderException(
-                    $"Reference to unknown event '{from}' in edge '{edge}'"
+                    $"Reference to unknown event '{edge.from}' in edge '{edge}'"
                 );
             }
 
             try {
-                to = events.First(e => e.Name == edge.to);
+                to = events.First(e => e.Id == edge.to);
             }
             catch (InvalidOperationException) {
                 throw new YamlLoaderException(
-                    $"Reference to unknown event '{to}' in edge '{edge}'"
+                    $"Reference to unknown event '{edge.to}' in edge '{edge}'"
                 );
             }
                     
@@ -114,28 +113,28 @@ public class YamlLoader {
         {
             var diff = executed.Except(events);
             if (diff.Any()) {
-                throw new YamlLoaderException($"Reference to unknown event '{diff.First().Name}' in execuded list");
+                throw new YamlLoaderException($"Reference to unknown event '{diff.First().Id}' in execuded list");
             }
         }
         
         {
             var diff = included.Except(events);
             if (diff.Any()) {
-                throw new YamlLoaderException($"Reference to unknown event '{diff.First().Name}' in included list");
+                throw new YamlLoaderException($"Reference to unknown event '{diff.First().Id}' in included list");
             }
         }
 
         {
             var diff = pending.Except(events);
             if (diff.Any()) {
-                throw new YamlLoaderException($"Reference to unknown event '{diff.First().Name}' in pending list");
+                throw new YamlLoaderException($"Reference to unknown event '{diff.First().Id}' in pending list");
             }
         }
 
 
-        var marking = new DCRMarking<StringEvent>(executed, included, pending);
+        var marking = new DCRMarking(executed, included, pending);
 
-        return new DCRGraph<StringEvent>(events, conditions, milestones, responses, excludes, includes, marking);
+        return new DCRGraph(events, conditions, milestones, responses, excludes, includes, marking);
     }
 }
 

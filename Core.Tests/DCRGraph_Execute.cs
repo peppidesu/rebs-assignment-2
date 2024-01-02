@@ -4,18 +4,19 @@ namespace Core.Tests;
 public class DCRGraph_Execute {
     [Test]
     public void Execute_ThrowsOnUnknownEvent() {
-        var a = Substitute.For<IEvent>();
-
-        var graph = new DCRGraph<IEvent>();    
+        var a = Substitute.For<Event>();
+        a.Id.Returns("a");
+        
+        var graph = new DCRGraph();    
 
         Assert.Throws<ArgumentException>(() => graph.Execute(a));
     }
 
     [Test]
     public void Execute_ThrowsOnUnenabledEvent() {
-        var a = Substitute.For<IEvent>();
+        var a = Substitute.For<Event>();
 
-        var graph = new DCRGraph<IEvent>();    
+        var graph = new DCRGraph();    
         graph.AddEvent(a);        
 
         Assert.Throws<EventNotEnabledException>(() => graph.Execute(a));
@@ -23,9 +24,9 @@ public class DCRGraph_Execute {
 
     [Test]
     public void Execute_AddsToExecuted() {
-        var a = Substitute.For<IEvent>();
+        var a = Substitute.For<Event>();
 
-        var graph = new DCRGraph<IEvent>();    
+        var graph = new DCRGraph();    
         graph.AddEvent(a);        
         graph.MarkEventAsIncluded(a);
 
@@ -36,9 +37,9 @@ public class DCRGraph_Execute {
 
     [Test]
     public void Execute_RemovesFromPending() {
-        var a = Substitute.For<IEvent>();
+        var a = Substitute.For<Event>();
 
-        var graph = new DCRGraph<IEvent>();    
+        var graph = new DCRGraph();    
         graph.AddEvent(a);        
         graph.MarkEventAsIncluded(a);
         graph.MarkEventAsPending(a);
@@ -50,10 +51,10 @@ public class DCRGraph_Execute {
 
     [Test]
     public void Execute_MakeResponsesPending() {
-        var a = Substitute.For<IEvent>();
-        var b = Substitute.For<IEvent>();
+        var a = Substitute.For<Event>();
+        var b = Substitute.For<Event>();
 
-        var graph = new DCRGraph<IEvent>();    
+        var graph = new DCRGraph();    
         graph.AddEvent(a);        
         graph.AddEvent(b);        
         graph.MarkEventAsIncluded(a);
@@ -65,9 +66,9 @@ public class DCRGraph_Execute {
     }
     [Test]
     public void Execute_Pending_RemoveBeforeAdd() {
-        var a = Substitute.For<IEvent>();        
+        var a = Substitute.For<Event>();        
 
-        var graph = new DCRGraph<IEvent>();    
+        var graph = new DCRGraph();    
         graph.AddEvent(a);                
         graph.MarkEventAsIncluded(a);
         graph.MarkEventAsPending(a);
@@ -80,10 +81,10 @@ public class DCRGraph_Execute {
 
     [Test]
     public void Execute_RemoveExcluded() {
-        var a = Substitute.For<IEvent>();
-        var b = Substitute.For<IEvent>();
+        var a = Substitute.For<Event>();
+        var b = Substitute.For<Event>();
 
-        var graph = new DCRGraph<IEvent>();    
+        var graph = new DCRGraph();    
         graph.AddEvent(a);        
         graph.AddEvent(b);        
         graph.MarkEventAsIncluded(a);
@@ -97,10 +98,10 @@ public class DCRGraph_Execute {
 
     [Test]
     public void Execute_AddIncluded() {
-        var a = Substitute.For<IEvent>();
-        var b = Substitute.For<IEvent>();
+        var a = Substitute.For<Event>();
+        var b = Substitute.For<Event>();
 
-        var graph = new DCRGraph<IEvent>();    
+        var graph = new DCRGraph();    
         graph.AddEvent(a);        
         graph.AddEvent(b);        
         graph.MarkEventAsIncluded(a);
@@ -113,10 +114,10 @@ public class DCRGraph_Execute {
 
     [Test]
     public void Execute_Included_RemoveBeforeAdd() {
-        var a = Substitute.For<IEvent>();        
-        var b = Substitute.For<IEvent>();
+        var a = Substitute.For<Event>();        
+        var b = Substitute.For<Event>();
 
-        var graph = new DCRGraph<IEvent>();    
+        var graph = new DCRGraph();    
         graph.AddEvent(a);                
         graph.AddEvent(b);
         graph.MarkEventAsIncluded(a);

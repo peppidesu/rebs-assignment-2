@@ -20,19 +20,19 @@ public class CsvLoaderTests
         CsvLoader csvLoader = new CsvLoader();
 
         // Do the thing
-        Dictionary<string, Queue<StringEvent>> idTitleMap = csvLoader.LoadCsv(tempFilePath);
+        Dictionary<string, Queue<Event>> idTitleMap = csvLoader.LoadCsv(tempFilePath);
 
         // Tests
         Assert.That(idTitleMap, Has.Count.EqualTo(2));
         Assert.That(idTitleMap["1"], Has.Count.EqualTo(2));
-        Assert.That(idTitleMap["1"].Dequeue().Name, Is.EqualTo("Title1"));
-        Assert.That(idTitleMap["1"].Dequeue().Name, Is.EqualTo("Title2"));
+        Assert.That(idTitleMap["1"].Dequeue().Id, Is.EqualTo("Title1"));
+        Assert.That(idTitleMap["1"].Dequeue().Id, Is.EqualTo("Title2"));
 
         
         Assert.That(idTitleMap.ContainsKey("2"), Is.True);
         Assert.That(idTitleMap["2"], Has.Count.EqualTo(2));
-        Assert.That(idTitleMap["2"].Dequeue().Name, Is.EqualTo("Title3"));
-        Assert.That(idTitleMap["2"].Dequeue().Name, Is.EqualTo("Title4"));
+        Assert.That(idTitleMap["2"].Dequeue().Id, Is.EqualTo("Title3"));
+        Assert.That(idTitleMap["2"].Dequeue().Id, Is.EqualTo("Title4"));
         
     }
 }
