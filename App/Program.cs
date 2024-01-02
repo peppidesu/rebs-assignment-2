@@ -110,7 +110,7 @@ class Program
             Console.Write("The following runs failed: ");
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine(failedStr);
-            Console.WriteLine("Use '-v' for more details.");
+            if (!options.Verbose) Console.WriteLine("Use '-v' for more details.");
         }        
 
         Console.ForegroundColor = ConsoleColor.Green;
