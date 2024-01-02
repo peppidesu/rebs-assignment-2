@@ -3,6 +3,8 @@ using CommandLine;
 using Core;
 class Program
 {
+    private static int maxFailedDisplay = 10;
+
     public class Options
     {
         [Value(0, 
@@ -18,10 +20,10 @@ class Program
         )]
         public required string Graph { get; set; }
 
-        [Option(longName: "run", shortName: 'r')]
+        [Option(longName: "run", shortName: 'r', HelpText = "Select a specific run from the log file.")]
         public IEnumerable<string>? Runs { get; set; }        
 
-        [Option(longName: "verbose", shortName: 'v')]
+        [Option(longName: "verbose", shortName: 'v', HelpText = "Use verbose logging.")]
         public bool Verbose { get; set; }
     }
 
@@ -85,18 +87,35 @@ class Program
         var graph = yamlLoader.LoadFromFile(options.Graph);
                 
         var count = 0;
+        var failed = new List<string>();
         foreach (var pair in logs) {            
             var result = checker.IsConformant(ref graph, pair.Value);
-            if (!result)
-            {
-                Output.Info($"Run '{pair.Key}' is not conformant.");
-            }
-            else {
+            if (result) { 
                 count++;
             }
+            else {
+                failed.Add(pair.Key);
+            }
         }
+        
+        
+        if (failed.Count > 0) {
+
+            var failedStr = string.Join(", ", failed.Take(maxFailedDisplay));
+            if (failed.Count > maxFailedDisplay) {
+                failedStr += $", ... ({failed.Count-maxFailedDisplay} more)";
+            }
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("The following runs failed: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(failedStr);
+            Console.WriteLine("Use '-v' for more details.");
+        }        
+
         Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine($"{count}/{logs.Count} runs succeeded ({logs.Count-count} failed).");
+        Console.WriteLine($"{count}/{logs.Count} runs succeeded.");
+        
         Console.ResetColor();
     }
 }

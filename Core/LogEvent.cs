@@ -14,7 +14,7 @@ public class LogEvent : Event {
         Date = date;
     }
 
-    public override string ToString() => Name;
+    public override string ToString() => $"{Name} (run {Run}, {Date})";
 
     private string GetDebuggerDisplay()
     {

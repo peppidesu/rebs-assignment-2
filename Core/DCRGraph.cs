@@ -104,18 +104,27 @@ public class DCRGraph {
 
         //event is added to the executed set
         _marking.Executed.Add(e);
+        Output.Trace($"Executed event '{e}'");
+            
 
         //event is removed from the pending set
-        _marking.Pending.Remove(e); 
+        if (_marking.Pending.Remove(e))
+            Output.Trace($"- '{e}' is no longer pending");
 
         //all the events that e makes pending are added to the pending set
         _marking.Pending.UnionWith(_responses[e]);
+        if (_responses[e].Count > 0)
+            Output.Trace($"- Marked '{string.Join("', '", _responses[e])}' as pending.");
 
         //all the events that e excludes are removed from the included set
         _marking.Included.ExceptWith(_excludes[e]);
+        if (_excludes[e].Count > 0)
+            Output.Trace($"- Excluded '{string.Join("', '", _excludes[e])}'");
 
         //all the events that e includes are added to the included set
         _marking.Included.UnionWith(_includes[e]);
+        if (_includes[e].Count > 0)
+            Output.Trace($"- Included '{string.Join("', '", _includes[e])}'");
 
     }
 
