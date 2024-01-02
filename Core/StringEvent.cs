@@ -4,7 +4,8 @@ namespace Core;
 
 [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
 public struct StringEvent : IEvent {
-    public readonly string Name;
+    public readonly string Name;    
+    public readonly string Id => Name;
 
     public StringEvent(string name) {
         Name = name;
