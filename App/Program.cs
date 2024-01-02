@@ -18,14 +18,17 @@ class Program
         )]
         public required string Graph { get; set; }
 
-        [Option("run")]
+        [Option(longName: "run", shortName: 'r')]
         public IEnumerable<string>? Runs { get; set; }        
+
+        [Option(longName: "verbose", shortName: 'v')]
+        public bool Verbose { get; set; }
     }
 
     static bool CheckValidPath(string path) {
         
         if (!File.Exists(path)) {
-            Console.Error.WriteLine($"[Error] File does not exist: '{path}'");
+            Output.Error($"File does not exist: '{path}'");
             return false;
         }
         try {
@@ -33,13 +36,13 @@ class Program
             fs.Dispose();
         }
         catch (UnauthorizedAccessException e) {
-            Console.Error.WriteLine($"[Error] Cannot open file '{path}': Unauthorized access.");
-            Console.Error.WriteLine($"Message: {e.Message}");
+            Output.Error($"Cannot open file '{path}': Unauthorized access.");
+            Output.Error($"Message: {e.Message}");
             return false;
         }
         catch (Exception e) {
-            Console.Error.WriteLine($"[Error] Cannot open file '{path}': Unknown error.");
-            Console.Error.WriteLine($"Message: {e.Message}");
+            Output.Error($"Cannot open file '{path}': Unknown error.");
+            Output.Error($"Message: {e.Message}");
             return false;
         }        
         
@@ -62,6 +65,8 @@ class Program
             Environment.Exit(1003);            
         }
         
+        if (options.Verbose) Output.Level = LogLevel.Trace;
+
         var checker = new ConformanceChecker();
         var csvLoader = new CsvLoader();
         var yamlLoader = new YamlLoader();
@@ -71,7 +76,7 @@ class Program
             // check for invalid run names
             if (options.Runs.Except(logs.Keys).Any()) {
                 var invalid = options.Runs.Except(logs.Keys).First();
-                Console.Error.WriteLine($"Invalid run '{invalid}'");
+                Output.Error($"Invalid run '{invalid}'");
             }
             // filter selected runs only
             logs = logs.IntersectBy(options.Runs, pair => pair.Key).ToDictionary();
@@ -85,11 +90,11 @@ class Program
             if (!result)
             {
                 all = false;
-                Console.WriteLine($"Run '{pair.Key}' is not conformant.");
+                Output.Info($"Run '{pair.Key}' is not conformant.");
             }
         }
         if(all) {
-            Console.WriteLine("All runs are conformant.");
+            Output.Info("All runs are conformant.");
         }
     }
 }
