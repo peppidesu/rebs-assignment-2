@@ -121,7 +121,7 @@ public class DCRGraph {
 
     public bool IsAccepting() {
         // Check if there are no included pending events in the marking
-        if (_marking.Pending.Any(pendingEvent => _marking.Included.Contains(pendingEvent)))
+        if (_marking.Pending.Any(_marking.Included.Contains))
             return false;
         return true;
     }
