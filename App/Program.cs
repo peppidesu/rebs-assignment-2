@@ -83,19 +83,21 @@ class Program
         }
         
         var graph = yamlLoader.LoadFromFile(options.Graph);
-        
-        var all = true;
+                
+        var count = 0;
         foreach (var pair in logs) {            
             var result = checker.IsConformant(ref graph, pair.Value);
             if (!result)
             {
-                all = false;
                 Output.Info($"Run '{pair.Key}' is not conformant.");
             }
+            else {
+                count++;
+            }
         }
-        if(all) {
-            Output.Info("All runs are conformant.");
-        }
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine($"{count}/{logs.Count} runs succeeded ({logs.Count-count} failed).");
+        Console.ResetColor();
     }
 }
 
