@@ -22,21 +22,22 @@ public class CsvLoader
                 string[] columns = line.Split(';');
 
                 // Grab relevant columns
-                string id = columns[0];
+                string run = columns[0];
                 string title = columns[2];
+                string date = columns[4];
 
                 // Check if ID is already in the dictionary
-                if (idTitleMap.TryGetValue(id, out Queue<Event>? titleQueue)) 
+                if (idTitleMap.TryGetValue(run, out Queue<Event>? titleQueue)) 
                 {
                     // Add the title to the existing queue
-                    titleQueue.Enqueue(new StringEvent(title));
+                    titleQueue.Enqueue(new LogEvent(title, run, date));
                 }
                 else
                 {
                     // Create a new queue for the ID and add the title
                     titleQueue = new Queue<Event>();
-                    titleQueue.Enqueue(new StringEvent(title));
-                    idTitleMap.Add(id, titleQueue);
+                    titleQueue.Enqueue(new LogEvent(title, run, date));
+                    idTitleMap.Add(run, titleQueue);
                 }
 
             }
