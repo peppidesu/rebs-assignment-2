@@ -1,0 +1,109 @@
+events:
+  - Fill out application
+  - Approved - to board
+  - Change phase to Review
+  - Architect Review
+  - Review
+  - Lawyer Review
+  - Register Decision
+  - Change phase to Board meeting
+  - Round ends
+  - Round approved
+  - Inform application of board review
+  - Reject
+  - Applicant informed
+  - Change phase to Abort
+  - Screening reject
+  - Screen application
+  - Execute pre-decision
+  - Approve
+  - Change phase to Preparation
+  - Set to Pre-approved
+  - Inform applicant of approval
+  - Applicant justifies relevance
+  - Change Phase to Payout
+  - First payment
+  - Payment completed
+  - Change Phase to End Report
+  - Account number changed
+  - Approve account change
+  - Receive end report
+  - Change phase to Complete
+  - Execute abandon
+  - Change phase to Abandon
+  - Undo payment
+edges:
+  - type: exclude
+    from: Execute abandon
+    to: Change Phase to End Report
+  - type: exclude
+    from: Execute abandon
+    to: First payment
+  - type: exclude
+    from: Execute abandon
+    to: Undo payment
+  - type: exclude
+    from: Execute abandon
+    to: Approve account change
+  - type: exclude
+    from: Execute abandon
+    to: Change Phase to Payout
+  - type: exclude
+    from: Execute abandon
+    to: Account number changed
+  - type: exclude
+    from: Execute abandon
+    to: Change phase to Abort
+  - type: exclude
+    from: Execute abandon
+    to: Applicant informed
+  - type: exclude
+    from: Execute abandon
+    to: Reject
+  - type: exclude
+    from: Execute abandon
+    to: Approve
+  - type: exclude
+    from: Execute abandon
+    to: Architect Review
+  - type: exclude
+    from: Execute abandon
+    to: Lawyer Review
+  - type: exclude
+    from: Execute abandon
+    to: Fill out application
+marking:  
+  included: 
+      - Fill out application
+      - Approved - to board
+      - Change phase to Review
+      - Architect Review
+      - Review
+      - Lawyer Review
+      - Register Decision
+      - Change phase to Board meeting
+      - Round ends
+      - Round approved
+      - Inform application of board review
+      - Reject
+      - Applicant informed
+      - Change phase to Abort
+      - Screening reject
+      - Screen application
+      - Execute pre-decision
+      - Approve
+      - Change phase to Preparation
+      - Set to Pre-approved
+      - Inform applicant of approval
+      - Applicant justifies relevance
+      - Change Phase to Payout
+      - Payment completed
+      - Change Phase to End Report
+      - Account number changed
+      - Approve account change
+      - Receive end report
+      - Change phase to Complete
+      - Execute abandon
+      - Change phase to Abandon
+      - Undo payment
+      - First payment
