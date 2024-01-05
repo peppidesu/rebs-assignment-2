@@ -11,9 +11,9 @@ public class ConformanceChecker {
             try {
                 graph.Execute(e);
             }
-            catch (ArgumentException) {
-                graph.Reset(initState);
-                Output.Trace($"Run '{e.Run}' failed at event '{e}': event doesn't exist in the graph.");
+            catch (ArgumentException) { // event not found in graph
+                graph.Reset(initState); 
+                Output.Trace($"=== Run '{run}' failed at event '{e}': event doesn't exist in the graph. ===");
                 return false;
             }
             catch (EventNotEnabledException) {
