@@ -1,6 +1,9 @@
 using YamlDotNet.Serialization;
 namespace Core;
 
+/// <summary>
+/// Class used for loading yaml files into DCRGraph objects.
+/// </summary>
 public class YamlLoader {
     private IDeserializer _deserializer;
 
@@ -32,6 +35,7 @@ public class YamlLoader {
     }      
 
     public DCRGraph BuildFromData(DCRGraphData data) {
+        // load all events
         var events = EventSetFromStringArray(data.events);
         
         if (data.events.Length > events.Count) {
@@ -54,6 +58,7 @@ public class YamlLoader {
             includes.Add(e, []);
         }
         
+        // load all edges
         foreach (var edge in data.edges) {
             // stupid unreachable dummy values because c# does not have errors 
             // as values or some other way to do this better
@@ -109,7 +114,7 @@ public class YamlLoader {
         var executed = EventSetFromStringArray(data.marking.executed);
         var included = EventSetFromStringArray(data.marking.included);
         var pending = EventSetFromStringArray(data.marking.pending);
-
+        
         {
             var diff = executed.Except(events);
             if (diff.Any()) {
@@ -131,7 +136,7 @@ public class YamlLoader {
             }
         }
 
-
+        
         var marking = new DCRMarking(executed, included, pending);
 
         return new DCRGraph(events, conditions, milestones, responses, excludes, includes, marking);
@@ -142,6 +147,9 @@ public class YamlLoader {
 public class YamlLoaderException : Exception {
     public YamlLoaderException(string message) : base(message) {}
 }
+
+
+// datastructs to load the yaml data into
 
 public struct DCRGraphData {
     public string[] events;

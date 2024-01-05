@@ -1,11 +1,11 @@
 ﻿using System.Reflection;
-using CommandLine;
+using CommandLine; // Used for command line interface
 using Core;
 class Program
 {
     private static int maxFailedDisplay = 10;
 
-    public class Options
+    public class Options // command line usage spec
     {
         [Value(0, 
             MetaName = "log",
@@ -21,12 +21,16 @@ class Program
         public required string Graph { get; set; }
 
         [Option(longName: "run", shortName: 'r', HelpText = "Select a specific run from the log file.")]
-        public IEnumerable<string>? Runs { get; set; }        
+        public required IEnumerable<string> Runs { get; set; }        
 
         [Option(longName: "verbose", shortName: 'v', HelpText = "Use verbose logging.")]
         public bool Verbose { get; set; }
     }
 
+    /// <summary>
+    /// Utility for safely checking path validity
+    /// </summary>
+    /// <returns></returns>
     static bool CheckValidPath(string path) {
         
         if (!File.Exists(path)) {
