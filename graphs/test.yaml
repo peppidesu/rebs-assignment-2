@@ -38,6 +38,9 @@ edges:
     to: Lawyer Review
   - type: condition
     from: Fill out application
+    to: Change Phase to End Report
+  - type: condition
+    from: Fill out application
     to: Architect Review
   - type: exclude
     from: Lawyer Review
@@ -57,15 +60,9 @@ edges:
   - type: include 
     from: Architect Review
     to: Reject
-  - type: condition
-    from: Reject
-    to: Applicant informed
   - type: response
     from: Reject
     to: Applicant informed
-  - type: condition
-    from: Applicant informed
-    to: Change phase to Abort
   - type: response
     from: Applicant informed
     to: Change phase to Abort
@@ -157,6 +154,43 @@ edges:
   - type: exclude
     from: Execute abandon
     to: Fill out application
+#From Fill out application to the all of them:
+  - type: condition
+    from: Fill out application
+    to: Change Phase to End Report
+  - type: condition
+    from: Fill out application
+    to: First payment
+  - type: exclude
+    from: Fill out application
+    to: Undo payment
+  - type: condition
+    from: Fill out application
+    to: Approve account change
+  - type: condition
+    from: Fill out application
+    to: Change Phase to Payout
+  - type: condition
+    from: Fill out application
+    to: Account number changed
+  - type: condition
+    from: Fill out application
+    to: Change phase to Abort
+  - type: condition
+    from: Fill out application
+    to: Applicant informed
+  - type: condition
+    from: Fill out application
+    to: Reject
+  - type: condition
+    from: Fill out application
+    to: Approve
+  - type: condition
+    from: Fill out application
+    to: Architect Review
+  - type: condition
+    from: Fill out application
+    to: Lawyer Review
 
 marking:  
   included: 
@@ -171,25 +205,20 @@ marking:
       - Round ends
       - Round approved
       - Inform application of board review
-      - Reject
       - Applicant informed
       - Change phase to Abort
       - Screening reject
       - Screen application
       - Execute pre-decision
-      - Approve
       - Change phase to Preparation
       - Set to Pre-approved
       - Inform applicant of approval
       - Applicant justifies relevance
       - Change Phase to Payout
       - Payment completed
-      - Change Phase to End Report
       - Account number changed
       - Approve account change
       - Receive end report
       - Change phase to Complete
       - Execute abandon
       - Change phase to Abandon
-      - Undo payment
-

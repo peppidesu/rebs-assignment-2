@@ -1,0 +1,82 @@
+events:
+  - Fill out application
+  - Approved - to board
+  - Change phase to Review
+  - Architect Review
+  - Review
+  - Lawyer Review
+  - Register Decision
+  - Change phase to Board meeting
+  - Round ends
+  - Round approved
+  - Inform application of board review
+  - Reject
+  - Applicant informed
+  - Change phase to Abort
+  - Screening reject
+  - Screen application
+  - Execute pre-decision
+  - Approve
+  - Change phase to Preparation
+  - Set to Pre-approved
+  - Inform applicant of approval
+  - Applicant justifies relevance
+  - Change Phase to Payout
+  - First payment
+  - Payment completed
+  - Change Phase to End Report
+  - Account number changed
+  - Approve account change
+  - Receive end report
+  - Change phase to Complete
+  - Execute abandon
+  - Change phase to Abandon
+  - Undo payment
+
+edges:
+  - type: exclude
+    from: Account number changed
+    to: First payment
+  - type: condition
+    from: Account number changed
+    to: Approve account change
+  - type: include
+    from: Approve account change
+    to: First payment
+
+marking:  
+  included: 
+      - Fill out application
+      - Approved - to board
+      - Change phase to Review
+      - Architect Review
+      - Review
+      - Lawyer Review
+      - Register Decision
+      - Change phase to Board meeting
+      - Round ends
+      - Round approved
+      - Inform application of board review
+      - Reject
+      - Applicant informed
+      - Change phase to Abort
+      - Screening reject
+      - Screen application
+      - Execute pre-decision
+      - Approve
+      - Change phase to Preparation
+      - Set to Pre-approved
+      - Inform applicant of approval
+      - Applicant justifies relevance
+      - Change Phase to Payout
+      - Payment completed
+      - Change Phase to End Report
+      - Account number changed
+      - Approve account change
+      - Receive end report
+      - Change phase to Complete
+      - Execute abandon
+      - Change phase to Abandon
+      - Undo payment
+      - First payment
+
