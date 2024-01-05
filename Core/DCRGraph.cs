@@ -46,7 +46,9 @@ public class DCRGraph {
     }
 
     #region Builder functions
-
+    // These functions are used for testing in order to create graphs
+    // in a deterministic manner.
+    
     public void AddEvent(Event e) {
         _events.Add(e);
         _conditions[e] = [];
@@ -92,7 +94,13 @@ public class DCRGraph {
         // otherwise, it is enabled
         return true;
     }
-
+    
+    /// <summary>
+    /// Execute an event
+    /// </summary>
+    /// <param name="e">the event to execute</param>
+    /// <exception cref="ArgumentException">Event is not part of the graph.</exception>
+    /// <exception cref="EventNotEnabledException">Event is not enabled.</exception>
     public void Execute(Event e) {
         //check if event exists
         if (!_events.Contains(e)) 
@@ -128,6 +136,10 @@ public class DCRGraph {
 
     }
 
+    /// <summary>
+    /// Checks whether an event is accepting
+    /// </summary>
+    /// <returns>true if the graph is accepting, false otherwise.</returns>
     public bool IsAccepting() {
         // Check if there are no included pending events in the marking
         if (_marking.Pending.Any(_marking.Included.Contains))
@@ -135,10 +147,15 @@ public class DCRGraph {
         return true;
     }
 
+    /// <summary>
+    /// Reset the graph to a given marking
+    /// </summary>
+    /// <param name="marking">The marking to reset the graph to.</param>
     public void Reset(DCRMarking marking) {
         _marking = marking;
     }
 } 
 
+// Exceptions
 public class EventNotEnabledException(string message) : Exception(message) {}
  

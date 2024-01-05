@@ -1,7 +1,10 @@
 using System.Diagnostics;
 
 namespace Core;
-
+/// <summary>
+/// Represents an event in the event log.
+/// Contains additional Run and Date fields.
+/// /// </summary>
 [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
 public class LogEvent : Event {
     public readonly string Name;    
