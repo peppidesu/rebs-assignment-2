@@ -1,11 +1,18 @@
 namespace Core;
 
+/// <summary>
+/// Log level of the logger
+/// </summary>
 public enum LogLevel {
     Trace,
     Info,
     Warning,
     Error
 }
+
+/// <summary>
+/// Simple logging class
+/// </summary>
 public class Output {
     public static LogLevel Level { get; set; } = LogLevel.Info;
     

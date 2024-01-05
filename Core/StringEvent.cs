@@ -2,6 +2,9 @@ using System.Diagnostics;
 
 namespace Core;
 
+/// <summary>
+/// Simple string event. Contains just the name of the event.
+/// </summary>
 [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
 public class StringEvent : Event {
     public readonly string Name;    
