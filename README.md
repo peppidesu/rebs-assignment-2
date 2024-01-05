@@ -10,3 +10,7 @@ Run the project with `dotnet run` from the command line, or build with `dotnet b
 App <log> <graph>
 ```
 See `App --help` for additional options.
+
+The graphs for the patterns of assignment 1 as well as the overarching dcr graph are in the graphs folder.
+The Dreyers log is in the logs folder.
+Fill in these file paths when running as per the usage to run on specific graphs and logs.
