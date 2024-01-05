@@ -46,26 +46,3 @@ public class CsvLoader
         return idTitleMap;
     }
 }
-
-/// <summary>
-/// Usage Csv Loader
-/// </summary>
-/* class CSVLoaderUsage
-{
-    static void Main()
-    {
-        // Example usage
-        string csvFilePath = "../logs/log.csv";
-        CsvLoader csvLoader = new CsvLoader();
-        Dictionary<string, Queue<string>> idTitleMap = csvLoader.LoadCsv(csvFilePath);
-
-        // Display the loaded CSV data
-        foreach (var entry in idTitleMap)
-        {
-            string id = entry.Key;
-            Queue<string> titles = entry.Value;
-
-            Console.WriteLine($"ID: {id}, Titles: {string.Join(", ", titles)}");
-        }
-    }
-} */
