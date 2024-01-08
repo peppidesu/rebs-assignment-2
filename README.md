@@ -6,7 +6,7 @@
 ### Build from source
 Requires **.NET SDK 8.0** or later.
 
-1. Download the source code (using `git clone` or from one of the [releases](https://github.com/peppidesu/rebs-assignment-2/releases).
+1. Download the source code (using `git clone` or from one of the [releases](https://github.com/peppidesu/rebs-assignment-2/releases)).
 2. Build the project with `dotnet build`
 3. The executable can be found in the created subfolder in `./bin/`.
 
