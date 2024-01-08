@@ -3,8 +3,15 @@
 **Group 9** - Max Kowalchuk (*cnl490*), Pepijn Bakker (*zmx912*), Hjalte Tromborg (*vfr574*) 
 
 ## How to run
-Run the project with `dotnet run` from the command line, or build with `dotnet build` and run the executable in `./bin`.
-Alternatively, download the prebuild binary for your system from the [latest release page](https://github.com/peppidesu/rebs-assignment-2/releases/tag/latest).
+### Build from source
+Requires **.NET SDK 8.0** or later.
+
+1. Download the source code (using `git clone` or from one of the [releases](https://github.com/peppidesu/rebs-assignment-2/releases).
+2. Build the project with `dotnet build`
+3. The executable can be found in the created subfolder in `./bin/`.
+
+### Prebuild binary
+Alternatively, download the prebuild binary for your system from the [latest release page](https://github.com/peppidesu/rebs-assignment-2/releases/latest).
 
 ## Usage
 ```
